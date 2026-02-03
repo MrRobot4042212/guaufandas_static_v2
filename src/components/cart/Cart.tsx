@@ -140,7 +140,8 @@ export default function Cart() {
           detail.querySelector('[data-size-button]');
         const size = sizeButton?.getAttribute('data-size') || 'Única';
         const sku = sizeButton?.getAttribute('data-sku') || `${productId}-${color}-${size}`;
-        const price = Number(sizeButton?.getAttribute('data-price') || 0);
+        const basePrice = Number(detail.getAttribute('data-product-price') || 0);
+        const price = sizeButton ? Number(sizeButton.getAttribute('data-price') || 0) : basePrice;
 
         addToCart({
           id: productId,

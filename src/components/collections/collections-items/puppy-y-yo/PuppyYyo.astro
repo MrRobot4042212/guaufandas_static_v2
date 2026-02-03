@@ -61,7 +61,6 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 		class="pack-image"
 		data-image-target
 		style={`background-image: url('${defaultVariant.images[0]}')`}>
-		{discountPercent > 0 && <span class="pack-badge">-{discountPercent}%</span>}
 	</div>
 	<div class="pack-content">
 		<h3 class="pack-title">{pack.name}</h3>
@@ -74,6 +73,7 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 					data-pack-product
 					data-pack-product-id={String(product.id)}
 					data-pack-product-name={product.name}
+					data-pack-product-key={key}
 				>
 					<div class="pack-item-header">
 						<div
@@ -186,6 +186,61 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 	if (!window.__packPuppyColorInit) {
 		window.__packPuppyColorInit = true;
 
+		const packPriceBySize = {
+			'XS-8': 51.9,
+			'XS-18': 53.9,
+			'S-8': 52.9,
+			'S-18': 54.9,
+			'M-8': 53.9,
+			'M-18': 55.9,
+			'L-8': 55.9,
+			'L-18': 57.9,
+			'XL-8': 57.9,
+			'XL-18': 59.9,
+			'XXL-8': 59.9,
+			'XXL-18': 61.9
+		};
+
+		const getPackCurrency = (detail) => detail?.getAttribute('data-pack-currency') || 'EUR';
+
+		const getSelectedPrice = (product) => {
+			const selected = product?.querySelector('[data-pack-size].selected');
+			const candidate = selected || product?.querySelector('[data-pack-size]');
+			if (!candidate) return 0;
+			return Number(candidate.getAttribute('data-price') || 0);
+		};
+
+		const updateComparePrice = (detail) => {
+			if (!detail) return;
+			const currency = getPackCurrency(detail);
+			const total = Array.from(detail.querySelectorAll('[data-pack-product]')).reduce(
+				(sum, product) => sum + getSelectedPrice(product),
+				0
+			);
+			const compareLabel = detail.querySelector('.pack-price .price-compare');
+			if (compareLabel) {
+				compareLabel.textContent = new Intl.NumberFormat('es-ES', {
+					style: 'currency',
+					currency
+				}).format(total);
+			}
+		};
+
+		const updatePackPrice = (detail, sizeValue) => {
+			if (!detail || !sizeValue) return;
+			const nextPrice = packPriceBySize[sizeValue];
+			if (!nextPrice) return;
+			detail.setAttribute('data-pack-price', String(nextPrice));
+			const priceLabel = detail.querySelector('.pack-price .price');
+			if (priceLabel) {
+				const currency = getPackCurrency(detail);
+				priceLabel.textContent = new Intl.NumberFormat('es-ES', {
+					style: 'currency',
+					currency
+				}).format(nextPrice);
+			}
+		};
+
 		const setMatchState = (detail, enabled) => {
 			const matchColors = detail.querySelector('[data-pack-colors]');
 			matchColors?.classList.toggle('is-active', enabled);
@@ -198,9 +253,24 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 			});
 		};
 
-		document.addEventListener('click', (event) => {
+		const isGuaufandaProduct = (product) => {
+			const key = product?.getAttribute('data-pack-product-key');
+			if (key) return key === 'guaufanda';
+			const name = product?.getAttribute('data-pack-product-name') || '';
+			return name.trim().toLowerCase() === 'guaufanda';
+		};
+
+		const getGuaufandaSelectedSize = (detail) => {
+			const guauItem = detail?.querySelector('[data-pack-product-key="guaufanda"]')
+				|| Array.from(detail?.querySelectorAll('[data-pack-product]') || []).find(isGuaufandaProduct);
+			const selected = guauItem?.querySelector('[data-pack-size].selected');
+			return selected?.getAttribute('data-size') || null;
+		};
+
+			document.addEventListener('click', (event) => {
 			const detail = event.target?.closest?.('[data-pack-detail]');
 			if (!detail) return;
+			const currency = getPackCurrency(detail);
 
 			const matchToggle = detail.querySelector('[data-match-toggle]');
 			const matchEnabled = matchToggle?.checked;
@@ -225,6 +295,7 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 					const image = product.querySelector('[data-image-target]');
 					const sizeContainer = product.querySelector('[data-size-options]');
 					const selectedSizeLabel = product.querySelector('[data-selected-size]');
+					const productKey = product.getAttribute('data-pack-product-key');
 
 					const matchedButton = Array.from(colorButtons).find(
 						(btn) => btn.getAttribute('data-color') === color
@@ -247,10 +318,14 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 									(size) =>
 										`<button type="button" class="size-button${size.size === nextSize?.size ? ' selected' : ''}" data-pack-size data-size="${size.size}" data-price="${size.price}" data-sku="${size.sku ?? ''}">
 											<span>${size.size}</span>
-											<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency: '${pack.currency}' }).format(size.price)}</span>
+											<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(size.price)}</span>
 										</button>`
 								)
 								.join('');
+							if ((productKey === 'guaufanda' || isGuaufandaProduct(product)) && nextSize?.size) {
+								updatePackPrice(detail, nextSize.size);
+							}
+							updateComparePrice(detail);
 						}
 					}
 				});
@@ -290,10 +365,15 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 							(size) =>
 								`<button type="button" class="size-button${size.size === nextSize?.size ? ' selected' : ''}" data-pack-size data-size="${size.size}" data-price="${size.price}" data-sku="${size.sku ?? ''}">
 									<span>${size.size}</span>
-									<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency: '${pack.currency}' }).format(size.price)}</span>
+									<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(size.price)}</span>
 							</button>`
 						)
 						.join('');
+					const productKey = product.getAttribute('data-pack-product-key');
+					if ((productKey === 'guaufanda' || isGuaufandaProduct(product)) && nextSize?.size) {
+						updatePackPrice(detail, nextSize.size);
+					}
+					updateComparePrice(detail);
 				}
 				return;
 			}
@@ -311,6 +391,10 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 			sizeButtons.forEach((b) => b.classList.remove('selected'));
 			sizeButton.classList.add('selected');
 			if (selectedSizeLabel && size) selectedSizeLabel.textContent = size;
+			if ((product.getAttribute('data-pack-product-key') === 'guaufanda' || isGuaufandaProduct(product)) && size) {
+				updatePackPrice(detail, size);
+			}
+			updateComparePrice(detail);
 		});
 
 		document.addEventListener('change', (event) => {
@@ -324,6 +408,12 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 				const first = detail.querySelector('[data-pack-color-main]');
 				if (first) first.click();
 			}
+		});
+
+		document.querySelectorAll('[data-pack-detail]').forEach((detail) => {
+			const sizeValue = getGuaufandaSelectedSize(detail);
+			if (sizeValue) updatePackPrice(detail, sizeValue);
+			updateComparePrice(detail);
 		});
 	}
 </script>

@@ -19,6 +19,10 @@ const isActive = (path: string, exact = false) => {
       <a href="#products" class={isActive('/productos') ? 'active' : ''}>Productos</a>
       <a href="#collections" class={isActive('/collections') ? 'active' : ''}>Colecciones</a>
     </nav>
+
+    <button class="mobile-menu-button" type="button" data-mobile-toggle aria-label="Abrir menú">
+      ☰
+    </button>
     <!-- Logo (-->
     <div class="logo">
       <a href="/">
@@ -37,6 +41,59 @@ const isActive = (path: string, exact = false) => {
     </nav>
   </div>
 </header>
+
+<div class="mobile-drawer" data-mobile-drawer>
+  <div class="mobile-drawer-overlay" data-mobile-overlay></div>
+  <nav class="mobile-drawer-panel" aria-label="Menú móvil">
+    <div class="mobile-drawer-header">
+      <span>Menú</span>
+      <button class="mobile-drawer-close" type="button" data-mobile-close aria-label="Cerrar menú">✕</button>
+    </div>
+    <a href="/" data-mobile-link class={isActive('/', true) ? 'active' : ''}>Inicio</a>
+    <a href="#products" data-mobile-link class={isActive('/productos') ? 'active' : ''}>Productos</a>
+    <a href="#collections" data-mobile-link class={isActive('/collections') ? 'active' : ''}>Colecciones</a>
+    <a href="/about" data-mobile-link class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
+  </nav>
+</div>
+
+<script type="module">
+  if (!window.__mobileHeaderNavInit) {
+    window.__mobileHeaderNavInit = true;
+
+    const openDrawer = (drawer) => {
+      drawer?.classList.add('is-open');
+      document.body.classList.add('mobile-drawer-open');
+    };
+
+    const closeDrawer = (drawer) => {
+      drawer?.classList.remove('is-open');
+      document.body.classList.remove('mobile-drawer-open');
+    };
+
+    document.addEventListener('click', (event) => {
+      const toggle = event.target?.closest?.('[data-mobile-toggle]');
+      if (toggle) {
+        const drawer = document.querySelector('[data-mobile-drawer]');
+        openDrawer(drawer);
+        return;
+      }
+
+      const close = event.target?.closest?.('[data-mobile-close]');
+      const overlay = event.target?.closest?.('[data-mobile-overlay]');
+      const link = event.target?.closest?.('[data-mobile-link]');
+      if (close || overlay || link) {
+        const drawer = document.querySelector('[data-mobile-drawer]');
+        closeDrawer(drawer);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const drawer = document.querySelector('[data-mobile-drawer]');
+      closeDrawer(drawer);
+    });
+  }
+</script>
 
 <style>
 
@@ -157,6 +214,78 @@ const isActive = (path: string, exact = false) => {
   .navigation a.active::after {
     width: 100%;
   }
+
+  .mobile-menu-button {
+    display: none;
+    font-size: 1.6rem;
+    color: var(--color-black);
+    z-index: 2;
+  }
+
+  .mobile-drawer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1100;
+  }
+
+  .mobile-drawer.is-open {
+    pointer-events: auto;
+  }
+
+  .mobile-drawer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .mobile-drawer.is-open .mobile-drawer-overlay {
+    opacity: 1;
+  }
+
+  .mobile-drawer-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(320px, 85vw);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+
+  .mobile-drawer.is-open .mobile-drawer-panel {
+    transform: translateX(0);
+  }
+
+  .mobile-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .mobile-drawer-close {
+    font-size: 1.2rem;
+  }
+
+  .mobile-drawer-panel a {
+    text-decoration: none;
+    color: var(--color-ink);
+    font-weight: 600;
+    padding: 0.35rem 0;
+  }
+
+  .mobile-drawer-panel a.active {
+    color: var(--color-pink-pastel);
+  }
   /* Botones utilitarios */
   button {
     background: none;
@@ -176,6 +305,11 @@ const isActive = (path: string, exact = false) => {
 
     .mobile-menu-button {
       display: block;
+    }
+
+    .mobile-menu-button {
+      position: absolute;
+      left: 1rem;
     }
 
     .desktop-nav {

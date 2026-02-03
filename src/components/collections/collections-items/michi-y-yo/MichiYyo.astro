@@ -60,7 +60,6 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 		class="pack-image"
 		data-image-target
 		style={`background-image: url('${defaultVariant.images[0]}')`}>
-		{discountPercent > 0 && <span class="pack-badge">-{discountPercent}%</span>}
 	</div>
 	<div class="pack-content">
 		<h3 class="pack-title">{pack.name}</h3>
