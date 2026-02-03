@@ -32,13 +32,15 @@ const formatCurrency = (value: number) => {
 			<div
 				class="product-image-wrapper"
 				data-image-target
+				role="img"
+				aria-label={product.name}
 				style={`background-image: url('${defaultVariant.images[0]}')`}>
 			</div>
 		</div>
 
 		<div class="product-info">
 			<div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-				<h1 class="product-name">{product.name}</h1>
+				<h2 class="product-name">{product.name}</h2>
 				<Guides />
 			</div>			
 			<p class="product-description--full">{product.description}</p>
@@ -72,7 +74,9 @@ const formatCurrency = (value: number) => {
 									<img
 										src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
 										alt={variant.color}
-										class="color-image" />
+										class="color-image"
+										loading="lazy"
+										decoding="async" />
 									{variant.color === defaultVariant.color && <i class="pi pi-check color-check"></i>}
 								</button>
 							))}

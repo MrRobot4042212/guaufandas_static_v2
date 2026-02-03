@@ -9,7 +9,7 @@ import { personifandaProduct } from '@/data/personifanda';
 import ProductSeparator from './products-separator/Product-separator.astro';
 ---
 
-<section id="products" class="products-section">
+<section id="products" class="products-section" aria-label="Productos destacados">
 
   <div class="products-section-inner">
     <div class="products-grid">
@@ -37,6 +37,8 @@ import ProductSeparator from './products-separator/Product-separator.astro';
 <style>
   .products-section {
     background-color: #fcfcfc;
+    content-visibility: auto;
+    contain-intrinsic-size: 1200px;
   }
 
   .products-section-inner {

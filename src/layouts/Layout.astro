@@ -2,24 +2,89 @@
 import '../styles/global.css';
 import Cart from '@/components/cart/Cart';
 
+const {
+  title = 'Guaufandas | Ropa artesanal para mascotas y humanos',
+  description =
+    'Guaufandas crea guaufandas y prendas artesanales de lana natural para perros, gatos y humanos. Packs conjuntos y piezas hechas a mano.',
+  image = '/images/hero/1.webp',
+  canonical,
+  preloadImage,
+  noindex = false
+} = Astro.props;
+
+const canonicalUrl =
+  canonical ??
+  (Astro.site
+    ? new URL(Astro.url.pathname, Astro.site).toString()
+    : Astro.url.toString());
+
+const ogImage =
+  image.startsWith('http')
+    ? image
+    : Astro.site
+      ? new URL(image, Astro.site).toString()
+      : new URL(image, Astro.url).toString();
+
+const preloadImageUrl =
+  preloadImage &&
+    (preloadImage.startsWith('http')
+      ? preloadImage
+      : Astro.site
+        ? new URL(preloadImage, Astro.site).toString()
+        : new URL(preloadImage, Astro.url).toString());
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Guaufandas',
+  url: Astro.site?.toString() ?? canonicalUrl,
+  logo: ogImage
+};
+
+const fontPrimaryUrl =
+  'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap';
+const fontDisplayUrl =
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Pattaya&display=swap';
 ---
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Guaufandas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {preloadImageUrl && (
+      <link rel="preload" as="image" href={preloadImageUrl} />
+    )}
 		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-		rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Pattaya&display=swap" rel="stylesheet">
-		<title>Guaufandas</title>
+    <link rel="preload" as="style" href={fontPrimaryUrl} />
+    <link rel="preload" as="style" href={fontDisplayUrl} />
+    <link href={fontPrimaryUrl} rel="stylesheet">
+    <link href={fontDisplayUrl} rel="stylesheet">
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
 	</head>
 	<body>
-		<slot />
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+    <main id="main-content">
+      <slot />
+    </main>
     <Cart client:load />
 	</body>
 </html>
@@ -124,6 +189,22 @@ body {
   background-color: var(--color-background);
   color: var(--color-gray-900);
   min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 1rem;
+  background: var(--color-white);
+  color: var(--color-black);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  z-index: 10000;
+}
+
+.skip-link:focus {
+  left: 1rem;
 }
 
 /* Utilidades de texto */

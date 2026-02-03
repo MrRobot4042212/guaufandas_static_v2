@@ -9,7 +9,19 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://guaufandas.shop',
   vite: {
-      plugins: [tailwindcss()],
+    plugins: [tailwindcss()],
+    build: {
+      minify: 'esbuild',
+      cssCodeSplit: true,
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom']
+          }
+        }
+      }
+    }
 	},
 
   integrations: [react()],

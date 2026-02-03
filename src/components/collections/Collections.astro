@@ -8,35 +8,37 @@ import { packMiPuppyYo } from '@/data/pack-mi-puppy-y-yo';
 const michiPack = packMiMichiYo;
 const puppyPack = packMiPuppyYo;
 ---
-<span id="collections"></span>
+ 
 <ProductSeparator
     title="Colecciones Destacadas"
     subtitle="Explora nuestras colecciones"
     description="Descubre las colecciones más populares y encuentra el estilo perfecto para ti y tu mascota."
 />
-<section class="collections-section">
+<section id="collections" class="collections-section">
     <div class="collections-section-inner">
         <div class="collections-packs " data-pack-list>
             <div class="pack-shell" data-pack="michi">
                 <div class="pack-shell-content container">
-                    <h1 class="pack-shell-title">{michiPack.name}</h1>
+                    <h2 class="pack-shell-title">{michiPack.name}</h2>
                     <p class="pack-shell-description">{michiPack.description}</p>
                     <button type="button" class="btn btn-primary pack-shell-cta" data-pack-toggle="michi">Elegir y personalizar</button>
                 </div>
                 <div
                     class="pack-shell-image"
+                    role="img"
                     aria-label={michiPack.name}
                     style={`background-image: url('${michiPack.variants[0].images[0]}')`}>
                 </div>
             </div>
             <div class="pack-shell" data-pack="puppy">
                 <div class="pack-shell-content container">
-                    <h1 class="pack-shell-title">{puppyPack.name}</h1>
+                    <h2 class="pack-shell-title">{puppyPack.name}</h2>
                     <p class="pack-shell-description">{puppyPack.description}</p>
                     <button type="button" class="btn btn-primary pack-shell-cta" data-pack-toggle="puppy">Elegir y personalizar</button>
                 </div>
                 <div
                     class="pack-shell-image"
+                    role="img"
                     aria-label={puppyPack.name}
                     style={`background-image: url('${puppyPack.variants[0].images[0]}')`}>
                 </div>
@@ -77,6 +79,8 @@ const puppyPack = packMiPuppyYo;
     .collections-section{
         background:#fff;
         width: 100%;
+        content-visibility: auto;
+        contain-intrinsic-size: 1200px;
     }
     .collections-packs {
         display: flex;

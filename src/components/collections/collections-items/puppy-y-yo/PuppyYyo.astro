@@ -115,7 +115,9 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 											<img
 												src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
 												alt={variant.color}
-												class="color-image" />
+												class="color-image"
+												loading="lazy"
+												decoding="async" />
 										</button>
 									))}
 								</div>
@@ -172,7 +174,9 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 						<img
 							src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
 							alt={variant.color}
-							class="color-image" />
+												class="color-image"
+												loading="lazy"
+												decoding="async" />
 					</button>
 				))}
 			</div>

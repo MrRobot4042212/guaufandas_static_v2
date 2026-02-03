@@ -29,10 +29,12 @@ const formatCurrency = (value: number) => {
 	<div
 		class="product-detail-inner"
 		data-image-target
+		role="img"
+		aria-label={product.name}
 		style={`background-image: url('${defaultVariant.images[0]}')`}>
 		<div class="image-area-background" aria-hidden="true"></div>
 		<div class="product-info">
-			<h1 class="product-name">{product.name}</h1>
+			<h2 class="product-name">{product.name}</h2>
 			<p class="product-description--full">{product.description}</p>
 			<p class="product-price" data-current-price>{formatCurrency(defaultSize.price)}</p>
 
@@ -65,7 +67,9 @@ const formatCurrency = (value: number) => {
 									<img
 										src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
 										alt={variant.color}
-										class="color-image" />
+										class="color-image"
+										loading="lazy"
+										decoding="async" />
 									{variant.color === defaultVariant.color && <i class="pi pi-check color-check"></i>}
 								</button>
 							))}
