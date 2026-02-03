@@ -1,0 +1,61 @@
+---
+
+import Guaufanda from './products-items/guaufanda/Guaufanda.astro'; 
+import Miaufanda from './products-items/miaufanda/Miaufanda.astro';
+import Personifanda from './products-items/personifanda/Personifanda.astro';
+import { guaufandaProduct } from '@/data/guaufanda';
+import { miaufandaProduct } from '@/data/miaufanda';
+import { personifandaProduct } from '@/data/personifanda';
+import ProductSeparator from './products-separator/Product-separator.astro';
+---
+
+<section id="products" class="products-section">
+
+  <div class="products-section-inner">
+    <div class="products-grid">
+      <ProductSeparator
+      title="Favoritos de Temporada"
+      subtitle="Productos destacados"
+      description="Descubre nuestra colección de invierno, diseñada especialmente para mantener a tu mascota abrigada con estilo."
+      />
+      <Guaufanda product={guaufandaProduct} client:visible />
+      <ProductSeparator
+      title="¿Escucháis eso?"
+      subtitle="Miau... Miau... Miau..."
+      description="Es un gatito pidiendo calorcito, no os preocupeis desde guaufandas tambien tenemos algo calentito para ellos."
+      />
+      <Miaufanda product={miaufandaProduct} client:visible />
+      <ProductSeparator
+      title="¿Y si pudiese ir en conjunto con mi peludo?"
+      subtitle="Espera tengo una pregunta..."
+      description="Pues desde Guaufandas también nos preocupamos por el calorcito humano"
+      />
+      <Personifanda product={personifandaProduct} client:visible />
+  </div>
+</section>
+
+<style>
+  .products-section {
+    background-color: #fcfcfc;
+  }
+
+  .products-section-inner {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #1f1a16;
+    margin-bottom: 3rem;
+    font-family: 'Georgia', serif; /* O la fuente que uses en tu proyecto */
+  }
+
+  .products-grid {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+</style>

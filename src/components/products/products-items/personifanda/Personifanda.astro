@@ -1,0 +1,447 @@
+---
+import type { Product } from '../../../../types/product';
+
+interface Props {
+	product: Product;
+}
+
+const { product } = Astro.props;
+
+const defaultVariant = product.variants[0];
+const defaultSize = defaultVariant.sizes[0];
+
+const formatCurrency = (value: number) => {
+	return new Intl.NumberFormat('es-ES', {
+		style: 'currency',
+		currency: product.currency
+	}).format(value);
+};
+---
+
+<div
+	class="product-detail personifanda-detail"
+	data-product-detail
+	data-product-id={String(product.id)}
+	data-product-name={product.name}
+	data-product-currency={product.currency}
+>
+	<div
+		class="product-detail-inner"
+		data-image-target
+		style={`background-image: url('${defaultVariant.images[0]}')`}>
+		<div class="image-area-background" aria-hidden="true"></div>
+		<div class="product-info">
+			<h1 class="product-name">{product.name}</h1>
+			<p class="product-description--full">{product.description}</p>
+			<p class="product-price" data-current-price>{formatCurrency(defaultSize.price)}</p>
+
+			{product.tags && (
+				<div class="product-collections">
+					{product.tags.map((tag: unknown) => (
+						<span class="collection-tag">{tag}</span>
+					))}
+				</div>
+			)}
+
+			<div class="product-attributes">
+				<!-- Selector de Color (Visual/Estático) -->
+				<details class="attribute-section" open>
+					<summary class="attribute-summary">
+						<span class="attribute-label">Colores Disponibles</span>
+						<span class="attribute-selected-value" data-selected-color>{defaultVariant.color}</span>
+					</summary>
+					<div class="attribute-content">
+						<div class="color-options">
+							{product.variants.map((variant: { color: string | null | undefined; images: (string | null | undefined)[]; }) => (
+								<button
+									type="button"
+									class:list={['color-button', { selected: variant.color === defaultVariant.color }]}
+									title={variant.color}
+									data-color-button
+									data-color={variant.color}
+									data-image={variant.images[0]}
+								>
+									<img
+										src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
+										alt={variant.color}
+										class="color-image" />
+									{variant.color === defaultVariant.color && <i class="pi pi-check color-check"></i>}
+								</button>
+							))}
+						</div>
+					</div>
+				</details>
+
+
+
+			</div>
+
+			<div class="product-footer">
+				<div class="product-actions">
+					<button type="button" class="btn btn-primary btn-cart" data-add-to-cart>
+						Añadir al carrito
+					</button>
+
+<script type="module">
+	if (!window.__productDetailInit) {
+		window.__productDetailInit = true;
+
+		const formatCurrency = (value, currency = 'EUR') => {
+			return new Intl.NumberFormat('es-ES', {
+				style: 'currency',
+				currency
+			}).format(value);
+		};
+
+		const updateSelectedPrice = (detail, priceValue) => {
+			const priceLabel = detail.querySelector('[data-selected-price]');
+			const currentPrice = detail.querySelector('[data-current-price]');
+			if (priceLabel) priceLabel.textContent = priceValue;
+			if (currentPrice) currentPrice.textContent = priceValue;
+		};
+
+		document.addEventListener('click', (event) => {
+			const colorButton = event.target?.closest?.('[data-color-button]');
+			if (colorButton) {
+				const detail = colorButton.closest('[data-product-detail]');
+				if (!detail) return;
+
+				const image = detail.querySelector('[data-image-target]');
+				const selectedColorLabel = detail.querySelector('[data-selected-color]');
+				const buttons = detail.querySelectorAll('[data-color-button]');
+
+				const color = colorButton.getAttribute('data-color');
+				const nextImage = colorButton.getAttribute('data-image');
+				if (selectedColorLabel && color) selectedColorLabel.textContent = color;
+
+				buttons.forEach((b) => b.classList.remove('selected'));
+				colorButton.classList.add('selected');
+
+				if (image && nextImage) {
+					image.style.backgroundImage = `url('${nextImage}')`;
+				}
+				return;
+			}
+
+			const sizeButton = event.target?.closest?.('[data-size-button]');
+			if (sizeButton) {
+				const detail = sizeButton.closest('[data-product-detail]');
+				if (!detail) return;
+
+				const selectedSizeLabel = detail.querySelector('[data-selected-size]');
+				const sizeButtons = detail.querySelectorAll('[data-size-button]');
+				const size = sizeButton.getAttribute('data-size');
+				const price = sizeButton.getAttribute('data-price');
+
+				sizeButtons.forEach((b) => b.classList.remove('selected'));
+				sizeButton.classList.add('selected');
+
+				if (selectedSizeLabel && size) selectedSizeLabel.textContent = size;
+				if (price) {
+					const currency = detail.getAttribute('data-product-currency') || 'EUR';
+					updateSelectedPrice(detail, formatCurrency(Number(price), currency));
+				}
+			}
+		});
+	}
+</script>
+
+<style>
+
+	.product-detail {
+		position: relative;
+		width: 100% !important;
+		overflow: hidden;
+	}
+
+	.product-detail-inner {
+		position: relative;
+		width: 100%;
+		min-height: 700px;
+		height: 100dvh;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background-image 0.5s ease-in-out;
+	}
+
+	.image-area-background {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.3) 0%,
+			rgba(0, 0, 0, 0.5) 100%
+		);
+		z-index: 1;
+	}
+
+	.product-info {
+		position: relative;
+		z-index: 2;
+		text-align: center;
+		color: white;
+		max-width: 800px;
+		padding: 3rem 2rem;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	.product-name {
+		font-size: clamp(1.75rem, 4vw, 5rem);
+		font-weight: 400;
+		color: var(--color-white);
+		margin-bottom: 0;
+		font-family: var(--font-product);
+	}
+
+	.product-description--full {
+		font-size: clamp(1.1rem, 2vw, 1.4rem);
+		color: white;
+		line-height: 1.6;
+		margin: 0 0 2.5rem 0;
+		font-weight: 400;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	}
+
+	.product-price {
+		font-size: clamp(2rem, 4vw, 3rem);
+		font-weight: 700;
+		color: var(--color-ink);
+		margin: 0 0 1.5rem 0;
+	}
+
+	.product-collections {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.collection-tag {
+		padding: 0.4rem 1rem;
+		border-radius: 50px;
+		border: 1px solid rgba(255, 255, 255, 0.35);
+		color: var(--color-white);
+		font-size: 0.85rem;
+		text-transform: capitalize;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(6px);
+	}
+
+	.attribute-section {
+		margin: 2rem 0;
+		border-radius: 0;
+		border: none;
+		background: transparent;
+		padding: 0;
+	}
+
+	.attribute-summary {
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		cursor: pointer;
+		padding: 0;
+	}
+
+	.attribute-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.attribute-summary::after {
+		content: "";
+	}
+
+	.attribute-content {
+		padding: 0;
+	}
+
+	.attribute-label {
+		font-weight: 400;
+		text-transform: uppercase;
+		font-size: 0.9rem;
+		letter-spacing: 1px;
+		color: white;
+	}
+
+	.attribute-selected-value {
+		margin-left: 0.5rem;
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 0.9rem;
+	}
+
+	.attribute-selected-price {
+		margin-left: 0.5rem;
+		color: white;
+		font-size: 0.9rem;
+		font-weight: 600;
+	}
+
+	.color-options {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		align-items: center;
+		margin: 2rem 0;
+		flex-wrap: wrap;
+	}
+
+	.color-button {
+		position: relative;
+		width: 60px;
+		height: 60px;
+		padding: 0;
+		border: 3px solid white;
+		border-radius: 50%;
+		background: white;
+		cursor: pointer;
+		overflow: hidden;
+		transition: all var(--transition-fast);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	}
+
+	.color-button.selected {
+		border-width: 4px;
+		border-color: white;
+		box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5), 0 6px 20px rgba(0, 0, 0, 0.5);
+		transform: scale(1.15);
+	}
+
+	.color-button:hover {
+		transform: scale(1.1);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+	}
+
+	.color-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	.size-options,
+	.size-button,
+	.size-price {
+		display: none;
+	}
+
+	.product-footer {
+		border-top: none;
+		padding-top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.product-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.price {
+		font-size: 2rem;
+		font-weight: 800;
+	}
+
+	.btn-primary {
+		padding: 1.25rem 3rem;
+		background: white;
+		color: var(--color-black);
+		border: none;
+		border-radius: 50px;
+		font-size: 1.1rem;
+		font-weight: 700;
+		letter-spacing: 1px;
+		cursor: pointer;
+		transition: all var(--transition-medium);
+		text-transform: uppercase;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+		text-decoration: none;
+		display: inline-flex;
+
+	}
+
+	.btn-primary:hover {
+		background: var(--color-black);
+		color: white;
+		transform: translateY(-3px);
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+	}
+
+	.product-card-note {
+		font-size: 0.95rem;
+		color: rgba(255, 255, 255, 0.8);
+		font-style: italic;
+		margin-top: 1.5rem;
+	}
+
+	@media (max-width: 968px) {
+		.product-detail-inner {
+			height: 100%;
+		}
+
+		.product-info {
+			padding: 2rem 1.5rem;
+		}
+
+		.product-name {
+			font-size: clamp(2.5rem, 8vw, 3.5rem);
+		}
+
+		.color-options {
+			gap: 0.75rem;
+		}
+
+		.color-button {
+			width: 50px;
+			height: 50px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.product-detail-inner {
+			height: 100%;
+		}
+
+		.product-info {
+			padding: 1.5rem 1rem;
+		}
+
+		.product-description--full {
+			font-size: 1rem;
+			margin-bottom: 2rem;
+		}
+
+		.color-options {
+			gap: 0.5rem;
+			flex-wrap: wrap;
+		}
+
+		.color-button {
+			width: 45px;
+			height: 45px;
+		}
+
+		.btn-primary {
+			padding: 1rem 2rem;
+			font-size: 1rem;
+			width: 100%;
+			max-width: 300px;
+			justify-content: center;
+		}
+	}
+</style>

@@ -1,0 +1,323 @@
+---
+import '../styles/global.css';
+import Cart from '@/components/cart/Cart';
+
+---
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+		rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Pattaya&display=swap" rel="stylesheet">
+		<title>Guaufandas</title>
+	</head>
+	<body>
+		<slot />
+    <Cart client:load />
+	</body>
+</html>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+:root {
+  /* Paleta de colores tierra/beige */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  
+  --color-primary: #bb9474;        /* Marrón claro/tierra - Color principal */
+  --color-primary-light: #d6b092;  /* Beige rosado - Variante clara */
+  --color-primary-lighter: #cfb195;/* Beige arena - Aún más claro */
+  --color-primary-dark: #9e775a;   /* Marrón medio - Variante oscura */
+  --color-primary-darker: #997e64; /* Marrón oscuro - Aún más oscuro */
+  
+  --color-secondary: #a87751;      /* Marrón tierra - Color secundario */
+  --color-secondary-light: #bfa082;/* Beige cálido */
+  --color-secondary-dark: #b88a62; /* Marrón dorado */
+  
+  --color-neutral: #c7c4c2;        /* Gris beige - Neutro */
+  --color-background: #f2f0ee;     /* Beige claro - Fondo principal */
+  
+  /* Escala de grises/beige */
+  --color-gray-50: #f2f0ee;
+  --color-gray-100: #cfb195;
+  --color-gray-200: #c7c4c2;
+  --color-gray-300: #bfa082;
+  --color-gray-400: #997e64;
+  --color-gray-500: #9e775a;
+  --color-gray-600: #a87751;
+  --color-gray-700: #b88a62;
+  --color-gray-800: #bb9474;
+  --color-gray-900: #997e64;
+  
+  /* Alias para compatibilidad */
+  --color-pink-pastel: #bb9474;
+  --color-pink-light: #d6b092;
+  --color-pink-dark: #9e775a;
+  --color-ink: #997e64;
+  --color-linen: #f2f0ee;
+  --color-cedar: #a87751;
+  --color-rust: #b88a62;
+  --color-sage: #9e775a;
+  --color-cream: #f2f0ee;
+  --color-warm-border: rgba(158, 119, 90, 0.2);
+  
+  /* Tipografía */
+  --font-family: 'Source Sans 3', sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-product: 'Pattaya', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  
+  /* Espaciado */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  /* Bordes */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  
+  /* Sombras minimalistas */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Transiciones */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--color-cedar) var(--color-linen);
+  scrollbar-width: thin;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  background-color: var(--color-background);
+  color: var(--color-gray-900);
+  min-height: 100vh;
+}
+
+/* Utilidades de texto */
+.text-center {
+  text-align: center;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Botones personalizados */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+.btn-lg {
+  padding: 0.9rem 2rem;
+  font-size: var(--font-size-base);
+  border-radius: var(--border-radius-md);
+}
+
+
+.btn-primary:hover {
+  background-color: var(--color-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  
+
+.btn-cart {
+  background: var(--color-rust);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-cart:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cart:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+}
+
+.btn-secondary {
+  background-color: var(--color-pink-pastel);
+  color: var(--color-black);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-pink-dark);
+  color: var(--color-white);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-pink-pastel);
+}
+
+
+	.btn-primary{
+	background: var(--color-rust);
+	color: white;
+	padding: 0.8rem 1.5rem;
+	border-radius: 8px;
+	text-decoration: none;
+	font-weight: 600;
+	transition: filter 0.2s;
+	cursor: pointer;
+	}
+
+
+/* Grid system */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+/* Cards minimalistas */
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Inputs minimalistas */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-white);
+  color: var(--color-gray-900);
+  transition: all var(--transition-fast);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-pink-pastel);
+  box-shadow: 0 0 0 3px var(--color-pink-light);
+}
+
+/* Override de PrimeNG para estilo minimalista */
+.p-component {
+  font-family: var(--font-family) !important;
+}
+
+.p-button {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--border-radius-sm) !important;
+}
+
+.p-card {
+  border: 1px solid var(--color-gray-200);
+  box-shadow: none !important;
+  transition: all var(--transition-normal);
+}
+
+.p-card:hover {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Animaciones sutiles */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :root {
+    --font-size-3xl: 1.75rem;
+    --font-size-2xl: 1.25rem;
+  }
+  
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+</style>

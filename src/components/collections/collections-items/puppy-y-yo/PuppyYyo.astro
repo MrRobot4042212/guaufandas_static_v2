@@ -1,0 +1,661 @@
+---
+import { packMiPuppyYo } from '@/data/pack-mi-puppy-y-yo';
+import { guaufandaProduct } from '@/data/guaufanda';
+import { personifandaProduct } from '@/data/personifanda';
+import type { Pack } from '@/types/pack';
+import type { Product } from '@/types/product';
+import Guides from '@/components/guides/Guides.astro';
+
+const pack: Pack = packMiPuppyYo;
+const defaultVariant = pack.variants[0];
+const guaufanda: Product = guaufandaProduct;
+const personifanda: Product = personifandaProduct;
+
+const defaultGuauVariant = guaufanda.variants[0];
+const defaultGuauSize = defaultGuauVariant.sizes[0];
+const defaultPersoVariant = personifanda.variants[0];
+const defaultPersoSize = defaultPersoVariant.sizes[0];
+
+const packProducts = [
+	{
+		key: 'guaufanda',
+		product: guaufanda,
+		defaultVariant: defaultGuauVariant,
+		defaultSize: defaultGuauSize
+	},
+	{
+		key: 'personifanda',
+		product: personifanda,
+		defaultVariant: defaultPersoVariant,
+		defaultSize: defaultPersoSize
+	}
+];
+
+const getItemQuantity = (productId: string) =>
+	pack.items?.find((item) => item.productId === productId)?.quantity ?? 1;
+
+const formatCurrency = (value: number) => {
+	return new Intl.NumberFormat('es-ES', {
+		style: 'currency',
+		currency: pack.currency
+	}).format(value);
+};
+
+const getDiscountPercent = (base: number, compare?: number | null) => {
+	if (!compare || compare <= base) return 0;
+	return Math.round(((compare - base) / compare) * 100);
+};
+
+const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?? null);
+---
+
+<div
+	class="pack-card"
+	data-pack-detail
+	data-pack-id={String(pack.id)}
+	data-pack-name={pack.name}
+	data-pack-currency={pack.currency}
+	data-pack-price={String(pack.basePrice)}
+>
+	<div
+		class="pack-image"
+		data-image-target
+		style={`background-image: url('${defaultVariant.images[0]}')`}>
+		{discountPercent > 0 && <span class="pack-badge">-{discountPercent}%</span>}
+	</div>
+	<div class="pack-content">
+		<h3 class="pack-title">{pack.name}</h3>
+		<p class="pack-description">{pack.description}</p>
+
+		<ul class="pack-items">
+			{packProducts.map(({ key, product, defaultVariant, defaultSize }) => (
+				<li
+					class="pack-item"
+					data-pack-product
+					data-pack-product-id={String(product.id)}
+					data-pack-product-name={product.name}
+				>
+					<div class="pack-item-header">
+						<div
+							class="pack-item-image"
+							data-image-target
+							style={`background-image: url('${defaultVariant.images[0]}')`}>
+						</div>
+						<div class="pack-item-info">
+							<div class="pack-item-title-row">
+								<h4 class="pack-item-title">{product.name}</h4>
+								<span class="pack-item-qty">x{getItemQuantity(String(product.id))}</span>
+							</div>
+							<p class="pack-item-subtitle">{product.description}</p>
+						</div>
+					</div>
+
+					<details class="pack-accordion">
+						<summary class="pack-accordion-summary">
+							<span>Personalizar {product.name}</span>
+							<span class="pack-accordion-hint">Color · Talla</span>
+						</summary>
+						<div class="pack-product-options">
+							<div class="pack-option">
+								<div class="pack-option-label">
+									<span>Color</span>
+									<span class="pack-option-value" data-selected-color>{defaultVariant.color}</span>
+								</div>
+								<div class="pack-colors" data-product-colors>
+									{product.variants.map((variant) => (
+										<button
+											type="button"
+											class:list={['color-button', { selected: variant.color === defaultVariant.color }]}
+											title={variant.color}
+											data-pack-color
+											data-color={variant.color}
+											data-image={variant.images[0]}
+											data-sizes={JSON.stringify(variant.sizes)}
+										>
+											<img
+												src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
+												alt={variant.color}
+												class="color-image" />
+										</button>
+									))}
+								</div>
+							</div>
+
+							<div class="pack-option">
+								<div class="pack-option-label">
+									<span>Talla</span>
+									<span class="pack-option-value" data-selected-size>{defaultSize.size}</span>
+								</div>
+								<div class="pack-sizes" data-size-options>
+									{defaultVariant.sizes.map((size) => (
+										<button
+											type="button"
+											class:list={['size-button', { selected: size.size === defaultSize.size }]}
+											data-pack-size
+											data-size={size.size}
+											data-price={String(size.price)}
+											data-sku={size.sku}
+										>
+											<span>{size.size}</span>
+											<span class="size-price">{formatCurrency(size.price)}</span>
+										</button>
+									))}
+								</div>
+							</div>
+						</div>
+					</details>
+				</li>
+			))}
+		</ul>
+
+		<div class="pack-price">
+			<span class="price">{formatCurrency(pack.basePrice)}</span>
+			{pack.compareAtPrice && <span class="price-compare">{formatCurrency(pack.compareAtPrice)}</span>}
+		</div>
+
+			<div class="pack-match">
+			<label class="pack-match-toggle">
+				<input type="checkbox" data-match-toggle />
+				<span>Ir a juego (unificar color)</span>
+			</label>
+			<div class="pack-colors pack-colors--match" data-pack-colors>
+				{pack.variants.map((variant) => (
+					<button
+						type="button"
+						class:list={['color-button', { selected: variant.color === defaultVariant.color }]}
+						title={variant.color}
+						data-pack-color-main
+						data-color={variant.color}
+						data-image={variant.images[0]}
+							data-sku={variant.sku}
+					>
+						<img
+							src={`/images/colors/${String(variant.color).toLowerCase()}.webp`}
+							alt={variant.color}
+							class="color-image" />
+					</button>
+				))}
+			</div>
+		</div>
+
+		<button class="btn btn-primary btn-cart" data-add-pack>Agregar pack</button>
+	</div>
+</div>
+
+<script type="module">
+	if (!window.__packPuppyColorInit) {
+		window.__packPuppyColorInit = true;
+
+		const setMatchState = (detail, enabled) => {
+			const matchColors = detail.querySelector('[data-pack-colors]');
+			matchColors?.classList.toggle('is-active', enabled);
+			detail.querySelectorAll('[data-pack-product]').forEach((product) => {
+				const colorGroup = product.querySelector('[data-product-colors]');
+				colorGroup?.classList.toggle('is-disabled', enabled);
+				colorGroup?.querySelectorAll('button').forEach((btn) => {
+					btn.disabled = enabled;
+				});
+			});
+		};
+
+		document.addEventListener('click', (event) => {
+			const detail = event.target?.closest?.('[data-pack-detail]');
+			if (!detail) return;
+
+			const matchToggle = detail.querySelector('[data-match-toggle]');
+			const matchEnabled = matchToggle?.checked;
+
+			const packColorButton = event.target?.closest?.('[data-pack-color-main]');
+			if (packColorButton) {
+				if (!matchEnabled) return;
+
+				const packImage = detail.querySelector('[data-image-target]');
+				const packButtons = detail.querySelectorAll('[data-pack-color-main]');
+
+				const color = packColorButton.getAttribute('data-color');
+				const nextImage = packColorButton.getAttribute('data-image');
+				if (packImage && nextImage) packImage.style.backgroundImage = `url('${nextImage}')`;
+
+				packButtons.forEach((b) => b.classList.remove('selected'));
+				packColorButton.classList.add('selected');
+
+				detail.querySelectorAll('[data-pack-product]').forEach((product) => {
+					const colorButtons = product.querySelectorAll('[data-pack-color]');
+					const selectedColorLabel = product.querySelector('[data-selected-color]');
+					const image = product.querySelector('[data-image-target]');
+					const sizeContainer = product.querySelector('[data-size-options]');
+					const selectedSizeLabel = product.querySelector('[data-selected-size]');
+
+					const matchedButton = Array.from(colorButtons).find(
+						(btn) => btn.getAttribute('data-color') === color
+					);
+
+					if (matchedButton) {
+						colorButtons.forEach((b) => b.classList.remove('selected'));
+						matchedButton.classList.add('selected');
+						const matchedImage = matchedButton.getAttribute('data-image');
+						const sizesRaw = matchedButton.getAttribute('data-sizes');
+						const sizes = sizesRaw ? JSON.parse(sizesRaw) : [];
+						if (selectedColorLabel && color) selectedColorLabel.textContent = color;
+						if (image && matchedImage) image.style.backgroundImage = `url('${matchedImage}')`;
+
+						if (sizeContainer && Array.isArray(sizes) && sizes.length) {
+							const nextSize = sizes[0];
+							if (selectedSizeLabel && nextSize?.size) selectedSizeLabel.textContent = nextSize.size;
+							sizeContainer.innerHTML = sizes
+								.map(
+									(size) =>
+										`<button type="button" class="size-button${size.size === nextSize?.size ? ' selected' : ''}" data-pack-size data-size="${size.size}" data-price="${size.price}" data-sku="${size.sku ?? ''}">
+											<span>${size.size}</span>
+											<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency: '${pack.currency}' }).format(size.price)}</span>
+										</button>`
+								)
+								.join('');
+						}
+					}
+				});
+				return;
+			}
+
+			const colorButton = event.target?.closest?.('[data-pack-color]');
+			if (colorButton) {
+				if (matchEnabled) return;
+				const product = colorButton.closest('[data-pack-product]');
+				if (!product) return;
+
+				const image = product.querySelector('[data-image-target]');
+				const selectedColorLabel = product.querySelector('[data-selected-color]');
+				const buttons = product.querySelectorAll('[data-pack-color]');
+				const sizeContainer = product.querySelector('[data-size-options]');
+				const selectedSizeLabel = product.querySelector('[data-selected-size]');
+
+				const color = colorButton.getAttribute('data-color');
+				const nextImage = colorButton.getAttribute('data-image');
+				const sizesRaw = colorButton.getAttribute('data-sizes');
+				const sizes = sizesRaw ? JSON.parse(sizesRaw) : [];
+
+				if (selectedColorLabel && color) selectedColorLabel.textContent = color;
+				if (image && nextImage) image.style.backgroundImage = `url('${nextImage}')`;
+
+				buttons.forEach((b) => b.classList.remove('selected'));
+				colorButton.classList.add('selected');
+
+				if (sizeContainer && Array.isArray(sizes)) {
+					const nextSize = sizes[0];
+					if (selectedSizeLabel && nextSize?.size) {
+						selectedSizeLabel.textContent = nextSize.size;
+					}
+					sizeContainer.innerHTML = sizes
+						.map(
+							(size) =>
+								`<button type="button" class="size-button${size.size === nextSize?.size ? ' selected' : ''}" data-pack-size data-size="${size.size}" data-price="${size.price}" data-sku="${size.sku ?? ''}">
+									<span>${size.size}</span>
+									<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency: '${pack.currency}' }).format(size.price)}</span>
+							</button>`
+						)
+						.join('');
+				}
+				return;
+			}
+
+			const sizeButton = event.target?.closest?.('[data-pack-size]');
+			if (!sizeButton) return;
+
+			const product = sizeButton.closest('[data-pack-product]');
+			if (!product) return;
+
+			const selectedSizeLabel = product.querySelector('[data-selected-size]');
+			const sizeButtons = product.querySelectorAll('[data-pack-size]');
+			const size = sizeButton.getAttribute('data-size');
+
+			sizeButtons.forEach((b) => b.classList.remove('selected'));
+			sizeButton.classList.add('selected');
+			if (selectedSizeLabel && size) selectedSizeLabel.textContent = size;
+		});
+
+		document.addEventListener('change', (event) => {
+			const toggle = event.target?.closest?.('[data-match-toggle]');
+			if (!toggle) return;
+			const detail = toggle.closest('[data-pack-detail]');
+			if (!detail) return;
+
+			setMatchState(detail, toggle.checked);
+			if (toggle.checked) {
+				const first = detail.querySelector('[data-pack-color-main]');
+				if (first) first.click();
+			}
+		});
+	}
+</script>
+
+<style>
+	.pack-card {
+		display: grid;
+		grid-template-columns: minmax(280px, 1fr) 1.3fr;
+		gap: clamp(1.5rem, 4vw, 3rem);
+		background: white;
+		border-radius: 24px;
+		overflow: hidden;
+		box-shadow: 0 18px 45px rgba(31, 26, 22, 0.1);
+		height: 90dvh;
+	}
+
+	.pack-image {
+		position: relative;
+		min-height: 260px;
+		background-size: cover;
+		background-position: center;
+		transition: background-image 0.5s ease-in-out;
+	}
+
+	.pack-badge {
+		position: absolute;
+		top: 16px;
+		left: 16px;
+		background: var(--color-cedar);
+		color: white;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		font-weight: 700;
+		font-size: 0.85rem;
+		letter-spacing: 0.05em;
+	}
+
+	.pack-content {
+		padding: clamp(1.5rem, 4vw, 3rem);
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		overflow-y: auto;
+	}
+
+	.pack-title {
+		font-family: var(--font-product);
+		font-size: clamp(1.8rem, 3vw, 2.6rem);
+		color: var(--color-ink);
+	}
+
+	.pack-description {
+		color: var(--color-gray-600);
+		line-height: 1.7;
+	}
+
+	.pack-items {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 1rem;
+	}
+
+	.pack-item {
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		border-radius: 16px;
+		padding: 0.85rem;
+		background: #fafafa;
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.btn-primary{
+	background: var(--color-rust);
+	color: white;
+	padding: 0.8rem 1.5rem;
+	border-radius: 8px;
+	text-decoration: none;
+	font-weight: 600;
+	transition: filter 0.2s;
+	cursor: pointer;
+	}
+
+	.btn-primary:hover {
+		filter: brightness(1.1);
+	}
+
+
+	.pack-item-header {
+		display: grid;
+		grid-template-columns: 110px 1fr;
+		gap: 0.75rem;
+		align-items: center;
+	}
+
+	.pack-item-image {
+		width: 100%;
+		min-height: 110px;
+		border-radius: 14px;
+		background-size: cover;
+		background-position: center;
+		transition: background-image 0.5s ease-in-out;
+	}
+
+	.pack-item-info {
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.pack-item-title-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+
+	.pack-item-title {
+		margin: 0;
+		font-size: 1.1rem;
+		color: var(--color-ink);
+		font-family: var(--font-product);
+	}
+
+	.pack-item-subtitle {
+		margin: 0;
+		color: var(--color-gray-600);
+		line-height: 1.5;
+		font-size: 0.9rem;
+	}
+
+	.pack-item-qty {
+		font-weight: 700;
+		color: var(--color-cedar);
+		font-size: 0.9rem;
+	}
+
+	.pack-match {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1rem 1.25rem;
+		border-radius: 16px;
+		background: #fff8f2;
+		border: 1px solid rgba(197, 116, 74, 0.2);
+		margin: 1rem 0 0.5rem;
+	}
+
+	.pack-match-toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-weight: 600;
+		color: var(--color-ink);
+	}
+
+	.pack-colors--match {
+		display: none;
+	}
+
+	.pack-colors--match.is-active {
+		display: flex;
+	}
+
+	.pack-product-options {
+		display: grid;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+	}
+
+	.pack-accordion {
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		border-radius: 14px;
+		background: white;
+		padding: 0.65rem 0.85rem;
+	}
+
+	.pack-accordion + .pack-accordion {
+		margin-top: 0.75rem;
+	}
+
+	.pack-accordion[open] {
+		box-shadow: 0 10px 25px rgba(31, 26, 22, 0.08);
+	}
+
+	.pack-accordion-summary {
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		cursor: pointer;
+		font-weight: 700;
+		color: var(--color-ink);
+		font-size: 0.95rem;
+	}
+
+	.pack-accordion-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.pack-accordion-hint {
+		font-weight: 500;
+		color: var(--color-gray-500);
+		font-size: 0.85rem;
+	}
+
+	.pack-accordion[open] .pack-accordion-summary {
+		margin-bottom: 0.85rem;
+	}
+
+	.pack-option {
+		display: grid;
+		gap: 0.6rem;
+	}
+
+	.pack-option-label {
+		display: flex;
+		justify-content: flex-start;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--color-gray-700);
+		font-weight: 700;
+		gap: 0.5rem;
+	}
+
+	.pack-option-value {
+		font-weight: 600;
+		color: var(--color-gray-500);
+		text-transform: none;
+		letter-spacing: 0;
+	}
+
+	.pack-colors.is-disabled {
+		opacity: 0.4;
+		pointer-events: none;
+	}
+
+	.pack-sizes {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+		gap: 0.5rem;
+	}
+
+	.size-button {
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		border-radius: 10px;
+		padding: 0.5rem 0.65rem;
+		background: white;
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.2rem;
+		font-weight: 600;
+		font-size: 0.85rem;
+		transition: var(--transition-fast);
+	}
+
+	.size-button.selected {
+		border-color: var(--color-cedar);
+		background: var(--color-cedar);
+		color: white;
+	}
+
+	.size-button.selected .size-price {
+		color: white;
+	}
+
+	.size-price {
+		font-size: 0.8rem;
+		color: var(--color-gray-600);
+		font-weight: 600;
+	}
+
+	.pack-price {
+		display: flex;
+		align-items: baseline;
+		gap: 1rem;
+	}
+
+	.price {
+		font-size: clamp(2rem, 4vw, 2.5rem);
+		font-weight: 800;
+		color: var(--color-ink);
+	}
+
+	.price-compare {
+		font-size: 1.1rem;
+		text-decoration: line-through;
+		color: var(--color-gray-500);
+	}
+
+	.pack-colors {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+		margin-top: 0.5rem;
+	}
+
+	.color-button {
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		border: 2px solid transparent;
+		overflow: hidden;
+		padding: 2px;
+		transition: var(--transition-fast);
+		background: white;
+		cursor: pointer;
+	}
+
+	.color-button.selected {
+		border-color: var(--color-ink);
+	}
+
+	.color-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	@media (max-width: 900px) {
+		.pack-card {
+			grid-template-columns: 1fr;
+		}
+
+		.pack-item-header {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,49 @@
+---
+import SizesGuide  from '../../assets/pdf/Tallas Guaufandas.pdf' 
+import ColorGuide from '../../assets/pdf/Colores.pdf'
+import PricesGuide from '../../assets/pdf/Lista de Precios.pdf'
+---
+
+<div>
+    <ul>
+        <li><a href={SizesGuide} target="_blank" rel="noopener noreferrer">Guía de Tallas</a></li>
+        <li><a href={ColorGuide} target="_blank" rel="noopener noreferrer">Guía de Colores</a></li>
+        <li><a href={PricesGuide} target="_blank" rel="noopener noreferrer">Lista de Precios</a></li>
+    </ul>
+</div>
+
+
+<style>
+    div {
+        padding: 2rem;
+        max-width: 600px;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        font-family: var(--font-family);
+    }
+    
+    li {
+        text-align: center;
+    }
+    
+    a {
+        text-decoration: none;
+        color: var(--color-primary);
+        font-weight: 600;
+        transition: color var(--transition-fast);
+        border: 1px solid var(--color-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.775rem;
+    }
+    
+    a:hover {
+        color: var(--color-primary-dark);
+    }
+</style>

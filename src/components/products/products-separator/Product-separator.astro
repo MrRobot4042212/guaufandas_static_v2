@@ -1,0 +1,77 @@
+---
+const { title, subtitle, description } = Astro.props;
+---
+
+<div class="featured-sets-section">
+      <div class="products-separator-inner">
+        <span class="section-subtitle">{subtitle}</span>
+        <h2 class="section-title">{title}</h2>
+      </div>
+      <div class="featured-description">
+        <p>{description}</p>
+      </div>
+</div>
+
+<style>
+    .featured-sets-section {
+    padding: clamp(2.5rem, 6vw, 4rem) 0; 
+    width: 100%;
+    background: var(--color-cream);
+    }
+    .featured-sets-section .products-separator-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    }
+
+    .products-separator-inner {
+    text-align: center;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+    }
+
+    .products-separator-inner h2 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: var(--spacing-md);
+    font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .products-separator-inner p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--color-gray-600);
+    }
+
+    .section-subtitle {
+    display: block;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    color: var(--color-cedar);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    }
+
+    .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--color-black);
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    }
+
+    .featured-description {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    }
+
+    .featured-description p {
+    font-size: clamp(1rem, 1.8vw, 1.125rem);
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0;
+    }
+</style>

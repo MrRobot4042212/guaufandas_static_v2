@@ -1,0 +1,210 @@
+---
+import Image from "astro/components/Image.astro";
+import logo_svg from "../../../public/favicon.svg";
+
+
+const pathname = Astro.url.pathname;
+const isActive = (path: string, exact = false) => {
+  if (exact) return pathname === path;
+  return pathname.startsWith(path);
+};
+
+---
+
+<header class="header">
+  <div class="header-content">
+    <!-- Navegación Izquierda (Inicio, Productos) -->
+    <nav class="navigation desktop-nav">
+      <a href="/" class={isActive('/', true) ? 'active' : ''}>Inicio</a>
+      <a href="#products" class={isActive('/productos') ? 'active' : ''}>Productos</a>
+      <a href="#collections" class={isActive('/collections') ? 'active' : ''}>Colecciones</a>
+    </nav>
+    <!-- Logo (-->
+    <div class="logo">
+      <a href="/">
+        <Image
+          src={logo_svg}
+          width="100"
+          height="100"
+          loading="eager"
+          alt="Logo de Guaufandas"
+        />
+      </a>
+    </div>
+    <!-- Navegación Derecha (Sobre nosotros, Contacto) -->
+    <nav class="navigation desktop-nav">
+      <a href="/about" class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+
+  .header {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    min-height: 100px;
+    transition: all 0.3s ease  ;
+    animation: contrast-header linear forwards;
+    animation-timeline: scroll();
+    animation-range: 10vh 20vh;
+  }
+  .header:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-height: 100px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 4rem;
+  }
+
+  .logo a {
+    text-decoration: none;
+    color: var(--color-black);
+    transition: opacity var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .logo a img {
+    border-radius: 50%;
+  }
+
+  .logo a:hover {
+    opacity: 0.7;
+  }
+
+  /* Navigation Links */
+  .navigation {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+
+  .navigation:first-of-type,
+  .navigation:last-of-type {
+    flex: 1 1 0;
+    justify-content: center;
+    padding: 0;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .navigation a {
+    text-decoration: none;
+    color: var(--color-white);
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    transition: color var(--transition-fast);
+    position: relative;
+    padding: var(--spacing-xs) 0;
+    cursor: pointer;
+
+    animation: contrast-anchor linear forwards;
+    animation-timeline: scroll();
+    animation-range: 5vh 10vh;
+
+  }
+  @keyframes contrast-anchor {
+    from {
+      color: var(--color-white);
+    }
+    to {
+      color: var(--color-black);
+    }
+    
+  }
+  .navigation a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-pink-pastel);
+    transition: width var(--transition-normal);
+  }
+
+  .navigation a:hover,
+  .navigation a.active {
+    color: var(--color-pink-pastel);
+
+    animation: contrast-anchor-hover linear forwards;
+    animation-timeline: scroll();
+    animation-range: 5vh 10vh;
+
+  }
+
+
+
+  .navigation a.active::after {
+    width: 100%;
+  }
+  /* Botones utilitarios */
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+  }
+  /* Responsive Breakpoints */
+  @media (max-width: 768px) {
+    .header-content {
+      justify-content: center;
+      padding: 1rem 1rem;
+      min-height: 100px;
+      gap: 2rem;
+    }
+
+    .mobile-menu-button {
+      display: block;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+    
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+  }
+  /* Animations */
+  @keyframes contrast-anchor-hover {
+    from {
+      color: var(--color-primary);
+    }
+    to {
+      color: var(--color-pink-pastel);
+    }
+  }
+  @keyframes contrast-header {
+    from {
+      background: transparent;
+      border-bottom: 1px solid transparent;
+    }
+    to {
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+  }
+</style>

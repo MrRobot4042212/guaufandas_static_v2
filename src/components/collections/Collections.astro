@@ -1,0 +1,309 @@
+---
+import ProductSeparator from "../products/products-separator/Product-separator.astro";
+import MichiYyo from "./collections-items/michi-y-yo/MichiYyo.astro";
+import PuppyYyo from "./collections-items/puppy-y-yo/PuppyYyo.astro";
+import { packMiMichiYo } from '@/data/pack-mi-michi-y-yo';
+import { packMiPuppyYo } from '@/data/pack-mi-puppy-y-yo';
+
+const michiPack = packMiMichiYo;
+const puppyPack = packMiPuppyYo;
+---
+<span id="collections"></span>
+<ProductSeparator
+    title="Colecciones Destacadas"
+    subtitle="Explora nuestras colecciones"
+    description="Descubre las colecciones más populares y encuentra el estilo perfecto para ti y tu mascota."
+/>
+<section class="collections-section">
+    <div class="collections-section-inner">
+        <div class="collections-packs " data-pack-list>
+            <div class="pack-shell" data-pack="michi">
+                <div class="pack-shell-content container">
+                    <h1 class="pack-shell-title">{michiPack.name}</h1>
+                    <p class="pack-shell-description">{michiPack.description}</p>
+                    <button type="button" class="btn btn-primary pack-shell-cta" data-pack-toggle="michi">Elegir y personalizar</button>
+                </div>
+                <div
+                    class="pack-shell-image"
+                    aria-label={michiPack.name}
+                    style={`background-image: url('${michiPack.variants[0].images[0]}')`}>
+                </div>
+            </div>
+            <div class="pack-shell" data-pack="puppy">
+                <div class="pack-shell-content container">
+                    <h1 class="pack-shell-title">{puppyPack.name}</h1>
+                    <p class="pack-shell-description">{puppyPack.description}</p>
+                    <button type="button" class="btn btn-primary pack-shell-cta" data-pack-toggle="puppy">Elegir y personalizar</button>
+                </div>
+                <div
+                    class="pack-shell-image"
+                    aria-label={puppyPack.name}
+                    style={`background-image: url('${puppyPack.variants[0].images[0]}')`}>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Michi -->
+    <div class="pack-modal" data-modal="michi">
+        <div class="pack-modal-overlay" data-modal-close></div>
+        <div class="pack-modal-content">
+            <button type="button" class="pack-modal-close" data-modal-close>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <MichiYyo client:visible />
+        </div>
+    </div>
+
+    <!-- Modal para Puppy -->
+    <div class="pack-modal" data-modal="puppy">
+        <div class="pack-modal-overlay" data-modal-close></div>
+        <div class="pack-modal-content">
+            <button type="button" class="pack-modal-close" data-modal-close>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <PuppyYyo client:visible />
+        </div>
+    </div>
+</section>
+
+<style>
+    .collections-section{
+        background:#fff;
+        width: 100%;
+    }
+    .collections-packs {
+        display: flex;
+        flex-direction: row;
+        gap: clamp(1.5rem, 4vw, 2.5rem);
+        align-items: start;
+        margin: auto;
+        background: #fff;
+
+    }
+
+    .pack-shell {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100dvh !important;
+        width: 100%;
+        position: relative;
+    }
+
+    .pack-shell:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(31, 26, 22, 0.12);
+    }
+    .pack-shell-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem 1rem;
+        gap: 1rem;
+        position: relative;
+        z-index: 1 ;
+        margin: auto;
+    }
+
+    .pack-shell-title {
+        font-family:var(--font-product) ;
+        text-align: center;
+        font-weight: 700;
+        font-size: 3.25rem;
+        color: var(--color-white);
+        letter-spacing: 0.02em;
+        z-index: 1 ;
+        padding: 1rem 
+    }
+
+    .pack-shell-description {
+        font-size: 1rem;
+        color: var(--color-white);
+        text-align: center;
+        padding: 0 1rem;
+        z-index: 1 ;
+        margin: auto;
+        max-width: 80%;
+    }
+
+    .pack-shell-image {
+        width: 100%;
+        min-height: 320px;
+        background-size: cover;
+        background-position: 10% 40%;
+        position: absolute;
+        height: 100%;
+        z-index: 0;
+    }
+    .pack-shell-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(2px);
+    }
+
+    .pack-shell-cta {
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease;
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    cursor: pointer;
+    height: fit-content;
+    width: fit-content;
+    margin: auto;
+    z-index: 1 ;
+    color: #fff;
+    }
+    .pack-shell-cta:hover{
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-white);
+    }
+
+    /* Modal Styles */
+    .pack-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .pack-modal.is-open {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .pack-modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(4px);
+        cursor: pointer;
+    }
+
+    .pack-modal-content {
+        position: relative;
+        width: 90vw;
+        max-width: 1400px;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: white;
+        border-radius: 24px;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .pack-modal.is-open .pack-modal-content {
+        transform: scale(1);
+    }
+
+    .pack-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 10;
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        color: var(--color-gray-700);
+    }
+
+    .pack-modal-close:hover {
+        background: var(--color-gray-100);
+        transform: rotate(90deg);
+    }
+
+    @media (max-width: 1024px) {
+        .collections-packs {
+            grid-template-columns: 1fr;
+            flex-wrap: wrap;
+
+        }
+
+        .pack-modal-content {
+            width: 95vw;
+            max-height: 95vh;
+            padding: 1.5rem;
+        }
+    }
+
+</style>
+
+<script type="module">
+    // Modal functionality
+    const openModal = (modalId) => {
+        const modal = document.querySelector(`[data-modal="${modalId}"]`);
+        if (modal) {
+            modal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    const closeModal = (modal) => {
+        if (modal) {
+            modal.classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+    };
+
+    const closeAllModals = () => {
+        document.querySelectorAll('.pack-modal').forEach((modal) => {
+            closeModal(modal);
+        });
+    };
+
+    // Event delegation for opening modals
+    document.addEventListener('click', (event) => {
+        const toggle = event.target?.closest?.('[data-pack-toggle]');
+        if (toggle) {
+            const packId = toggle.getAttribute('data-pack-toggle');
+            if (packId) {
+                openModal(packId);
+            }
+            return;
+        }
+
+        // Close modal
+        const closeBtn = event.target?.closest?.('[data-modal-close]');
+        if (closeBtn) {
+            const modal = closeBtn.closest('.pack-modal');
+            closeModal(modal);
+            return;
+        }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeAllModals();
+        }
+    });
+</script>

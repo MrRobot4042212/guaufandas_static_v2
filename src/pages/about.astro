@@ -1,0 +1,514 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '@/components/footer/footer.astro';
+import BasicHeader from '@/components/header/BasicHeader.astro';
+---
+
+<Layout>
+    <BasicHeader
+    />
+	<section class="about-section">
+		<div class="about-container">
+			<div class="about-grid">
+				<!-- Text Content -->
+				<div class="about-content">
+					<div class="about-text">
+						<span class="about-eyebrow">La Idea</span>
+						<h2 class="about-title">
+							El corazón detrás de Guaufandas
+						</h2>
+						<p class="about-paragraph">
+                            Guaufandas no nació en una oficina, sino en el sofá de casa, entre ovillos de lana y el sonido de las agujas de crochet. 
+						</p>
+						<p class="about-paragraph">
+							Todo comenzó con la llegada de Turrón, el perro que cambió nuestra vida y se convirtió en el muso de mi madre.
+                            Al ver cómo ella ponía todo su amor en cada puntada para que Turrón estuviera abrigado y guapo, nos dimos cuenta de que ese cariño merecía ser compartido. Lo que empezó como un hobby para consentir a nuestro mejor amigo, hoy es un proyecto familiar que busca llevar ese mismo calor de hogar a otros perritos y gatitos.
+						<p class="about-paragraph">
+							Nuestra misión es simple: Que cada peludito se sienta abrazado por una pieza hecha a mano, con calma y mucho corazón.
+						</p>
+					</div>
+					<!-- Small Features Grid -->
+					<div class="about-features">
+						<div class="about-feature">
+							<div class="about-feature-icon">
+								<span class="material-symbols-outlined"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-hearts" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M11.5 1.246c.832-.855 2.913.642 0 2.566-2.913-1.924-.832-3.421 0-2.566M9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4m13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276ZM15 2.165c.555-.57 1.942.428 0 1.711-1.942-1.283-.555-2.281 0-1.71Z"/>
+</svg></span>
+							</div>
+							<span class="about-feature-title">Todo hecho a mano</span>
+						</div>
+						<div class="about-feature">
+							<div class="about-feature-icon">
+								<span class="material-symbols-outlined"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-leaf" viewBox="0 0 16 16">
+  <path d="M1.4 1.7c.216.289.65.84 1.725 1.274 1.093.44 2.884.774 5.834.528l.37-.023c1.823-.06 3.117.598 3.956 1.579C14.16 6.082 14.5 7.41 14.5 8.5c0 .58-.032 1.285-.229 1.997q.198.248.382.54c.756 1.2 1.19 2.563 1.348 3.966a1 1 0 0 1-1.98.198c-.13-.97-.397-1.913-.868-2.77C12.173 13.386 10.565 14 8 14c-1.854 0-3.32-.544-4.45-1.435-1.125-.887-1.89-2.095-2.391-3.383C.16 6.62.16 3.646.509 1.902L.73.806zm-.05 1.39c-.146 1.609-.008 3.809.74 5.728.457 1.17 1.13 2.213 2.079 2.961.942.744 2.185 1.22 3.83 1.221 2.588 0 3.91-.66 4.609-1.445-1.789-2.46-4.121-1.213-6.342-2.68-.74-.488-1.735-1.323-1.844-2.308-.023-.214.237-.274.38-.112 1.4 1.6 3.573 1.757 5.59 2.045 1.227.215 2.21.526 3.033 1.158.058-.39.075-.782.075-1.158 0-.91-.288-1.988-.975-2.792-.626-.732-1.622-1.281-3.167-1.229l-.316.02c-3.05.253-5.01-.08-6.291-.598a5.3 5.3 0 0 1-1.4-.811"/>
+</svg></span>
+							</div>
+							<span class="about-feature-title">Lana 100%</span>
+						</div>
+						<div class="about-feature">
+							<div class="about-feature-icon">
+								<span class="material-symbols-outlined"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+</svg></span>
+							</div>
+							<span class="about-feature-title">Todo tejido con el corazón</span>
+						</div>
+					</div>
+				</div>
+				<!-- Image Collage -->
+				<div class="about-collage">
+					<div
+						class="about-image about-image-primary"
+						data-alt="Sepia toned close up of elderly hands knitting with thick wool yarn"
+						style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiUv3AiRPVdDg9Mufr0P1aYE4jbCK_4K-er9206UGprsrdgLtoOdE2GvoD1tTP2f8LF-ijDuvdoj3Fufo_Apz-G6zCbQD0FBEeqe6Oy-ImtlUTgvP2fHQtdW0O3wNxh65Vg48Q4CdXrA74C_r0DwwthoegYmDkoyjvPXdRwmpQ_hMGn44S90ET9XDjlltXVxCRq3BDctO7GbYh_rY6oRRmBXUA6pUpEc0ETw8NKJcH1oHjQbOhuB381YAl9I9e9e_K6R24PfZQv9U");'>
+					</div>
+					<div
+						class="about-image about-image-secondary"
+						data-alt="Close up texture shot of various colored wool yarn balls in a basket"
+						style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBD92gOakG2WqMfhb5qGNfRZOG6H1tr00vgObukRFi0r1goVWGFFCU6XTdUis6HNQSCY0CSVBdlJzJcQciGk8dyZdvyn6PqOKuPqPDdssuZZ-fO3vw1E8z6lu_Kn-zOHt77o1hAzMTGXPmfX1Jn-6KvIUPEFUiX-5cG3qC0a4emPaGO20ZZnyMPmm3rSYfQoixW4B0tcCfw3ODDwjg8pnqG9EXo619pJwxMoxEX5YobpGkDnlenM681sR6OCjpqD8c18iw5kPJfaKw");'>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="timeline-section">
+		<div class="timeline-texture" aria-hidden="true"></div>
+		<div class="timeline-container">
+			<div class="timeline-header">
+				<h2 class="timeline-title">Paso del Tiempo</h2>
+			</div>
+			<div class="timeline">
+				<div class="timeline-line" aria-hidden="true"></div>
+				<div class="timeline-items">
+					<div class="timeline-item">
+						<div class="timeline-content timeline-content-right">
+							<h3 class="timeline-year">2020</h3>
+							<h4 class="timeline-subtitle">El inicio en casa</h4>
+							<p class="timeline-copy">Tras la pandemia empezamos a realizar guaufandas para familia y amigos, con cariño y dedicación artesanal.</p>
+						</div>
+						<div class="timeline-dot" aria-hidden="true"></div>
+						<div class="timeline-media">
+							<div class="timeline-media-frame">
+								<div class="timeline-media-image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBD92gOakG2WqMfhb5qGNfRZOG6H1tr00vgObukRFi0r1goVWGFFCU6XTdUis6HNQSCY0CSVBdlJzJcQciGk8dyZdvyn6PqOKuPqPDdssuZZ-fO3vw1E8z6lu_Kn-zOHt77o1hAzMTGXPmfX1Jn-6KvIUPEFUiX-5cG3qC0a4emPaGO20ZZnyMPmm3rSYfQoixW4B0tcCfw3ODDwjg8pnqG9EXo619pJwxMoxEX5YobpGkDnlenM681sR6OCjpqD8c18iw5kPJfaKw");'></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="timeline-item timeline-item-reverse">
+						<div class="timeline-media">
+							<div class="timeline-media-frame">
+								<div class="timeline-media-image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCUiNUZeWfewe68pUesLVRSW5lKL3K5FTEgIHXD0JjSJ65GMqT-QM6AX4-7gqs8zT6eJT-yrX4w12KcTfF0UoUlwNYBJRfCQr617PwUqPJc_AoEEhWVlArhDYjeVSjAPydW7AGtm52U1yojB65-LVAec2BnyP4Qun1hiN7bNhqcGs1t-QGRjcYWJzduYoS1tLMvuB5rW9dP6iWf40HHXepK3Xw7zhXb1_J0geca2OfeAfHpX_uFkh72xVzleeV_BhEVnzfJMl7UC-U");'></div>
+							</div>
+						</div>
+						<div class="timeline-dot" aria-hidden="true"></div>
+						<div class="timeline-content timeline-content-left">
+							<h3 class="timeline-year">2026</h3>
+							<h4 class="timeline-subtitle">Lanzamiento al público</h4>
+							<p class="timeline-copy">Guaufandas se presenta al público, llevando nuestras piezas hechas a mano a más peluditos y familias.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Footer />
+</Layout>
+
+<style>
+	.about-section {
+		width: 100%;
+		background: var(--color-cream, #f7f1ea);
+		padding: 6rem 0;
+	}
+
+	.about-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 3rem;
+		align-items: center;
+        padding: 3rem 0;
+	}
+
+	.about-content {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		order: 2;
+	}
+
+	.about-text {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.about-eyebrow {
+		font-family: var(--font-product, serif);
+		font-size: 1.125rem;
+		font-style: italic;
+		color: var(--color-rust, #c5744a);
+	}
+
+	.about-title {
+		font-family: var(--font-product, serif);
+		font-size: clamp(2.25rem, 4vw, 3.5rem);
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-ink, #2c2a2a);
+		margin: 0;
+	}
+
+	.about-paragraph {
+		font-size: 1.1rem;
+		line-height: 1.7;
+		color: var(--color-gray-700, #4b5563);
+		margin: 0;
+	}
+
+	.about-button {
+		width: fit-content;
+		border-radius: 0.75rem;
+		background: var(--color-rust, #c5744a);
+		padding: 0.75rem 1.5rem;
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		color: white;
+		border: none;
+		cursor: pointer;
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+		transition: background 0.2s ease;
+	}
+
+	.about-button:hover {
+		background: #2c4b3e;
+	}
+
+	.about-features {
+		margin-top: 1rem;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+		border-top: 1px solid rgba(197, 116, 74, 0.12);
+		padding-top: 2rem;
+	}
+
+	.about-feature {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.about-feature-icon {
+		height: 2.5rem;
+		width: 2.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		background: white;
+		color: var(--color-rust, #c5744a);
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	.about-feature-title {
+		font-family: var(--font-product, serif);
+		font-weight: 600;
+		color: var(--color-ink, #2c2a2a);
+	}
+
+	.about-collage {
+		position: relative;
+		height: 500px;
+		order: 1;
+	}
+
+	.about-image {
+		position: absolute;
+		overflow: hidden;
+		border-radius: 1rem;
+		box-shadow: 0 18px 30px rgba(0, 0, 0, 0.15);
+		background-size: cover;
+		background-position: center;
+	}
+
+	.about-image-primary {
+		right: 0;
+		top: 0;
+		height: 380px;
+		width: 320px;
+		transform: rotate(3deg);
+		z-index: 2;
+	}
+
+	.about-image-secondary {
+		left: 1rem;
+		bottom: 2rem;
+		height: 300px;
+		width: 280px;
+		transform: rotate(-3deg);
+		z-index: 1;
+		filter: grayscale(30%) sepia(20%);
+	}
+
+	@media (min-width: 1024px) {
+		.about-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 4.5rem;
+		}
+
+		.about-content {
+			order: 1;
+		}
+
+		.about-collage {
+			order: 2;
+		}
+
+		.about-container {
+			padding: 0 3rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.about-section {
+			padding: 4.5rem 0;
+		}
+
+		.about-features {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.about-collage {
+			height: 420px;
+		}
+
+		.about-image-primary {
+			height: 320px;
+			width: 270px;
+		}
+
+		.about-image-secondary {
+			height: 260px;
+			width: 240px;
+		}
+	}
+
+	@media (max-width: 540px) {
+		.about-features {
+			grid-template-columns: 1fr;
+		}
+
+		.about-button {
+			width: 100%;
+			text-align: center;
+		}
+
+		.about-collage {
+			height: 360px;
+		}
+
+		.about-image-primary {
+			height: 260px;
+			width: 220px;
+		}
+
+		.about-image-secondary {
+			height: 210px;
+			width: 200px;
+		}
+	}
+
+	.timeline-section {
+		position: relative;
+		width: 100%;
+		padding: 5rem 0;
+		background: #f2ebe2;
+		border-top: 1px solid rgba(197, 116, 74, 0.1);
+		border-bottom: 1px solid rgba(197, 116, 74, 0.1);
+		overflow: hidden;
+	}
+
+	.timeline-texture {
+		position: absolute;
+		inset: 0;
+		opacity: 0.03;
+		background-image: url('https://www.transparenttextures.com/patterns/knitted-netting.png');
+		pointer-events: none;
+	}
+
+	.timeline-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+		position: relative;
+		z-index: 1;
+	}
+
+	.timeline-header {
+		text-align: center;
+		margin-bottom: 4rem;
+	}
+
+	.timeline-title {
+		font-family: var(--font-product, serif);
+		font-size: clamp(2rem, 3vw, 2.75rem);
+		font-weight: 600;
+		color: var(--color-rust, #c5744a);
+		margin: 0;
+	}
+
+	.timeline {
+		position: relative;
+	}
+
+	.timeline-line {
+		position: absolute;
+		left: 50%;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: rgba(197, 116, 74, 0.2);
+		transform: translateX(-50%);
+		display: none;
+	}
+
+	.timeline-items {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.timeline-item {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		align-items: center;
+	}
+
+	.timeline-content {
+		text-align: center;
+	}
+
+	.timeline-year {
+		font-family: var(--font-product, serif);
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--color-rust, #c5744a);
+		margin: 0 0 0.5rem 0;
+	}
+
+	.timeline-subtitle {
+		font-family: var(--font-product, serif);
+		font-size: 1.25rem;
+		margin: 0 0 0.75rem 0;
+		color: var(--color-ink, #2c2a2a);
+	}
+
+	.timeline-copy {
+		margin: 0;
+		color: var(--color-gray-700, #4b5563);
+		font-weight: 300;
+		line-height: 1.6;
+	}
+
+	.timeline-media {
+		width: 100%;
+	}
+
+	.timeline-media-frame {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		background: #e5e7eb;
+		box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+		filter: grayscale(1);
+		transition: filter 0.7s ease;
+	}
+
+	.timeline-media-image {
+		height: 100%;
+		width: 100%;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.timeline-item:hover .timeline-media-frame {
+		filter: grayscale(0);
+	}
+
+	.timeline-dot {
+		width: 0.9rem;
+		height: 0.9rem;
+		border-radius: 999px;
+		background: var(--color-rust, #c5744a);
+		border: 4px solid white;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+		display: none;
+	}
+
+	@media (min-width: 768px) {
+		.timeline-line {
+			display: block;
+		}
+
+		.timeline-items {
+			gap: 0;
+		}
+
+		.timeline-item {
+			flex-direction: row;
+			justify-content: space-between;
+			gap: 4rem;
+			padding: 3rem 0;
+		}
+
+		.timeline-item + .timeline-item {
+			margin-top: -1.5rem;
+		}
+
+		.timeline-item-reverse {
+			flex-direction: row-reverse;
+		}
+
+		.timeline-content {
+			width: 45%;
+		}
+
+		.timeline-content-right {
+			text-align: right;
+		}
+
+		.timeline-content-left {
+			text-align: left;
+		}
+
+		.timeline-media {
+			width: 45%;
+		}
+
+		.timeline-dot {
+			display: block;
+			z-index: 1;
+		}
+	}
+
+	@media (max-width: 540px) {
+		.timeline-header {
+			margin-bottom: 2.5rem;
+		}
+
+		.timeline-items {
+			gap: 2.5rem;
+		}
+	}
+</style>
