@@ -1,5 +1,9 @@
 ---
-const { title, subtitle, description } = Astro.props;
+const {
+  title = 'Guaufandas',
+  subtitle = 'Colección',
+  description = ''
+} = Astro.props;
 ---
 
 <div class="featured-sets-section">
@@ -8,7 +12,7 @@ const { title, subtitle, description } = Astro.props;
         <h2 class="section-title">{title}</h2>
       </div>
       <div class="featured-description">
-        <p>{description}</p>
+        {description && <p>{description}</p>}
       </div>
 </div>
 
