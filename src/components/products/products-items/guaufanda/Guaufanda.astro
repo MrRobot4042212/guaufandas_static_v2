@@ -122,6 +122,14 @@ const formatCurrency = (value: number) => {
   if (!window.__productDetailInit) {
     window.__productDetailInit = true;
 
+    const preloadImage = (src) => {
+      if (!src) return;
+      const img = new Image();
+      img.decoding = 'async';
+      img.loading = 'eager';
+      img.src = src;
+    };
+
     const formatCurrency = (value, currency = 'EUR') => {
       return new Intl.NumberFormat('es-ES', {
         style: 'currency',
@@ -178,6 +186,11 @@ const formatCurrency = (value: number) => {
           updateSelectedPrice(detail, formatCurrency(Number(price), currency));
         }
       }
+    });
+
+    document.querySelectorAll('[data-color-button][data-image]').forEach((button) => {
+      const src = button.getAttribute('data-image');
+      if (src) preloadImage(src);
     });
   }
 </script>
@@ -245,7 +258,7 @@ const formatCurrency = (value: number) => {
     position: absolute;
     inset: 0;
     background: url('/images/hero/guaufanda-product-background-dog.webp') right/cover no-repeat;
-    opacity: 0.2;
+    opacity: 0.1;
     background-position: 10% 25% ;
     left: 0;
     top: 0;
@@ -263,9 +276,9 @@ const formatCurrency = (value: number) => {
   }
 
   .product-description--full {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: var(--color-gray-600);
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #4b5563;
   }
 
   .product-collections {

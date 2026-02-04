@@ -38,7 +38,7 @@ const isActive = (path: string, exact = false) => {
     </div>
     <!-- Navegación Derecha (Sobre nosotros, Contacto) -->
     <nav class="navigation desktop-nav" aria-label="Navegación secundaria">
-      <a href="/about" class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
+      <a href="/about/" class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
     </nav>
   </div>
 </header>
@@ -53,7 +53,7 @@ const isActive = (path: string, exact = false) => {
     <a href="/" data-mobile-link class={isActive('/', true) ? 'active' : ''}>Inicio</a>
     <a href="#products" data-mobile-link class={isActive('/productos') ? 'active' : ''}>Productos</a>
     <a href="#collections" data-mobile-link class={isActive('/collections') ? 'active' : ''}>Colecciones</a>
-    <a href="/about" data-mobile-link class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
+    <a href="/about/" data-mobile-link class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
   </nav>
 </div>
 

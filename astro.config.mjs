@@ -8,8 +8,9 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://guaufandas.shop',
+  trailingSlash: 'always',
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [],
     build: {
       minify: 'esbuild',
       cssCodeSplit: true,

@@ -214,6 +214,34 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 			return Number(candidate.getAttribute('data-price') || 0);
 		};
 
+		const buildSizeButton = (size, selected, currency) => {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.className = `size-button${selected ? ' selected' : ''}`;
+			button.setAttribute('data-pack-size', '');
+			button.setAttribute('data-size', String(size.size));
+			button.setAttribute('data-price', String(size.price));
+			if (size.sku) button.setAttribute('data-sku', String(size.sku));
+			const sizeLabel = document.createElement('span');
+			sizeLabel.textContent = String(size.size);
+			const priceLabel = document.createElement('span');
+			priceLabel.className = 'size-price';
+			priceLabel.textContent = new Intl.NumberFormat('es-ES', {
+				style: 'currency',
+				currency
+			}).format(size.price);
+			button.append(sizeLabel, priceLabel);
+			return button;
+		};
+
+		const renderSizes = (container, sizes, selectedSize, currency) => {
+			if (!container) return;
+			container.innerHTML = '';
+			sizes.forEach((size) => {
+				container.appendChild(buildSizeButton(size, size.size === selectedSize, currency));
+			});
+		};
+
 		const updateComparePrice = (detail) => {
 			if (!detail) return;
 			const currency = getPackCurrency(detail);
@@ -317,15 +345,7 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 						if (sizeContainer && Array.isArray(sizes) && sizes.length) {
 							const nextSize = sizes[0];
 							if (selectedSizeLabel && nextSize?.size) selectedSizeLabel.textContent = nextSize.size;
-							sizeContainer.innerHTML = sizes
-								.map(
-									(size) =>
-										`<button type="button" class="size-button${size.size === nextSize?.size ? ' selected' : ''}" data-pack-size data-size="${size.size}" data-price="${size.price}" data-sku="${size.sku ?? ''}">
-											<span>${size.size}</span>
-											<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(size.price)}</span>
-										</button>`
-								)
-								.join('');
+							renderSizes(sizeContainer, sizes, nextSize?.size, currency);
 							if ((productKey === 'guaufanda' || isGuaufandaProduct(product)) && nextSize?.size) {
 								updatePackPrice(detail, nextSize.size);
 							}
@@ -364,15 +384,7 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 					if (selectedSizeLabel && nextSize?.size) {
 						selectedSizeLabel.textContent = nextSize.size;
 					}
-					sizeContainer.innerHTML = sizes
-						.map(
-							(size) =>
-								`<button type="button" class="size-button${size.size === nextSize?.size ? ' selected' : ''}" data-pack-size data-size="${size.size}" data-price="${size.price}" data-sku="${size.sku ?? ''}">
-									<span>${size.size}</span>
-									<span class="size-price">${new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(size.price)}</span>
-							</button>`
-						)
-						.join('');
+					renderSizes(sizeContainer, sizes, nextSize?.size, currency);
 					const productKey = product.getAttribute('data-pack-product-key');
 					if ((productKey === 'guaufanda' || isGuaufandaProduct(product)) && nextSize?.size) {
 						updatePackPrice(detail, nextSize.size);
@@ -664,7 +676,7 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 		gap: 0.5rem;
 	}
 
-	.size-button {
+	:global(.size-button) {
 		border: 1px solid rgba(0, 0, 0, 0.08);
 		border-radius: 10px;
 		padding: 0.5rem 0.65rem;
@@ -679,17 +691,17 @@ const discountPercent = getDiscountPercent(pack.basePrice, pack.compareAtPrice ?
 		transition: var(--transition-fast);
 	}
 
-	.size-button.selected {
+	:global(.size-button.selected) {
 		border-color: var(--color-cedar);
 		background: var(--color-cedar);
 		color: white;
 	}
 
-	.size-button.selected .size-price {
+	:global(.size-button.selected .size-price) {
 		color: white;
 	}
 
-	.size-price {
+	:global(.size-price) {
 		font-size: 0.8rem;
 		color: var(--color-gray-600);
 		font-weight: 600;

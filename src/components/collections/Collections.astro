@@ -131,13 +131,14 @@ const puppyPack = packMiPuppyYo;
     }
 
     .pack-shell-description {
-        font-size: 1rem;
+        font-size: 1.15rem;
         color: var(--color-white);
         text-align: center;
         padding: 0 1rem;
         z-index: 1 ;
         margin: auto;
         max-width: 80%;
+        line-height: 1.6;
     }
 
     .pack-shell-image {
@@ -184,9 +185,10 @@ const puppyPack = packMiPuppyYo;
         position: fixed;
         inset: 0;
         z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        height: 100dvh;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s ease;
@@ -209,7 +211,9 @@ const puppyPack = packMiPuppyYo;
         position: relative;
         width: 90vw;
         max-width: 1400px;
-        max-height: 90vh;
+        height: min(90dvh, 90vh);
+        max-height: min(90dvh, 90vh);
+        margin: 0;
         overflow-y: auto;
         background: white;
         border-radius: 24px;
@@ -266,7 +270,12 @@ const puppyPack = packMiPuppyYo;
     const openModal = (modalId) => {
         const modal = document.querySelector(`[data-modal="${modalId}"]`);
         if (modal) {
+            if (!modal.dataset.portalized) {
+                modal.dataset.portalized = 'true';
+                document.body.appendChild(modal);
+            }
             modal.classList.add('is-open');
+            document.documentElement.style.overflow = 'hidden';
             document.body.style.overflow = 'hidden';
         }
     };
@@ -274,6 +283,7 @@ const puppyPack = packMiPuppyYo;
     const closeModal = (modal) => {
         if (modal) {
             modal.classList.remove('is-open');
+            document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
         }
     };

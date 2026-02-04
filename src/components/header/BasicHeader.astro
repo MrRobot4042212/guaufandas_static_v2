@@ -36,7 +36,7 @@ const isActive = (path: string, exact = false) => {
     </div>
     <!-- Navegación Derecha (Sobre nosotros, Contacto) -->
     <nav class="navigation desktop-nav">
-      <a href="/about" class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
+      <a href="/about/" class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
     </nav>
   </div>
 </header>
@@ -49,7 +49,7 @@ const isActive = (path: string, exact = false) => {
       <button class="mobile-drawer-close" type="button" data-mobile-close aria-label="Cerrar menú">✕</button>
     </div>
     <a href="/" data-mobile-link class={isActive('/', true) ? 'active' : ''}>Inicio</a>
-    <a href="/about" data-mobile-link class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
+    <a href="/about/" data-mobile-link class={isActive('/about') ? 'active' : ''}>Sobre nosotros</a>
   </nav>
 </div>
 

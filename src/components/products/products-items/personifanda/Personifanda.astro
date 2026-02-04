@@ -91,6 +91,14 @@ const formatCurrency = (value: number) => {
 	if (!window.__productDetailInit) {
 		window.__productDetailInit = true;
 
+		const preloadImage = (src) => {
+			if (!src) return;
+			const img = new Image();
+			img.decoding = 'async';
+			img.loading = 'eager';
+			img.src = src;
+		};
+
 		const formatCurrency = (value, currency = 'EUR') => {
 			return new Intl.NumberFormat('es-ES', {
 				style: 'currency',
@@ -148,6 +156,11 @@ const formatCurrency = (value: number) => {
 				}
 			}
 		});
+
+		document.querySelectorAll('[data-color-button][data-image]').forEach((button) => {
+			const src = button.getAttribute('data-image');
+			if (src) preloadImage(src);
+		});
 	}
 </script>
 
@@ -204,9 +217,9 @@ const formatCurrency = (value: number) => {
 	}
 
 	.product-description--full {
-		font-size: clamp(1.1rem, 2vw, 1.4rem);
+		font-size: clamp(1.2rem, 2.2vw, 1.5rem);
 		color: white;
-		line-height: 1.6;
+		line-height: 1.7;
 		margin: 0 0 2.5rem 0;
 		font-weight: 400;
 		max-width: 600px;

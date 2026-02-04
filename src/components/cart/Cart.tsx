@@ -261,6 +261,12 @@ export default function Cart() {
             <span>Total</span>
             <strong data-cart-total>{formatCurrency(totalValue, currency)}</strong>
           </div>
+          <p className="cart-note">
+            El pedido se realiza por WhatsApp directamente con el fabricante. Compra segura y de confianza.
+          </p>
+          <p className="cart-note cart-note-secondary">
+            Al pulsar “Pedir por WhatsApp”, la aplicación genera automáticamente el mensaje con tu pedido.
+          </p>
           <a
             className={`btn btn-primary cart-whatsapp ${items.length ? '' : 'disabled'}`}
             data-cart-whatsapp
@@ -446,6 +452,22 @@ export default function Cart() {
           display: flex;
           flex-direction: column;
           gap: 1rem;
+        }
+
+        .cart-note {
+          margin: 0;
+          font-size: 0.95rem;
+          line-height: 1.5;
+          color: var(--color-gray-600);
+          background: #fff8f2;
+          border: 1px solid rgba(197, 116, 74, 0.2);
+          padding: 0.75rem 0.9rem;
+          border-radius: 10px;
+        }
+
+        .cart-note-secondary {
+          background: #f8fafc;
+          border-color: rgba(148, 163, 184, 0.4);
         }
 
         .cart-total {
